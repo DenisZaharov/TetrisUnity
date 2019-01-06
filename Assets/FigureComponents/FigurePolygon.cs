@@ -10,6 +10,7 @@ public interface FigurePolygonListener
 public class FigurePolygon : MonoBehaviour {
 
     private Vector2[] points;
+    float thickness;
     private Mesh mesh;
     private HashSet<FigurePolygonListener> listeners = new HashSet<FigurePolygonListener>();
 
@@ -28,11 +29,13 @@ public class FigurePolygon : MonoBehaviour {
         listeners.Remove(listener);
     }
 
-    public void SetPoints(Vector2[] points_ )
+    public void SetPoints(Vector2[] points_, float thickness_ )
     {
         // Note: See method TestCreateCube in commentaries at the end of this file for simple example of setting vertices and triangles to mesh
 
         points = points_;
+        thickness = thickness_;
+        Debug.Assert(thickness > 0.0f);
 
         int vecticesCount = points.Length; // First take number of points for the front face of the figure
         vecticesCount += points.Length; // add the same number of points for the back face
@@ -48,7 +51,7 @@ public class FigurePolygon : MonoBehaviour {
         {
             vertices[iVert].x = points[iVert].x;
             vertices[iVert].y = points[iVert].y;
-            vertices[iVert].z = -0.5f;
+            vertices[iVert].z = -thickness / 2;
         }
 
         filledVerts += points.Length;
@@ -58,7 +61,7 @@ public class FigurePolygon : MonoBehaviour {
         {
             vertices[filledVerts + iVert].x = points[iVert].x;
             vertices[filledVerts + iVert].y = points[iVert].y;
-            vertices[filledVerts + iVert].z = 0.5f;
+            vertices[filledVerts + iVert].z = thickness / 2;
         }
 
         filledVerts += points.Length;
@@ -68,13 +71,13 @@ public class FigurePolygon : MonoBehaviour {
         {
             vertices[filledVerts].x = points[iPoint].x;
             vertices[filledVerts].y = points[iPoint].y;
-            vertices[filledVerts].z = -0.5f;
+            vertices[filledVerts].z = -thickness / 2;
 
             filledVerts++;
 
             vertices[filledVerts].x = points[iPoint].x;
             vertices[filledVerts].y = points[iPoint].y;
-            vertices[filledVerts].z = 0.5f;
+            vertices[filledVerts].z = thickness / 2;
 
             filledVerts++;
 
@@ -82,13 +85,13 @@ public class FigurePolygon : MonoBehaviour {
             {
                 vertices[filledVerts].x = points[iPoint + 1].x;
                 vertices[filledVerts].y = points[iPoint + 1].y;
-                vertices[filledVerts].z = 0.5f;
+                vertices[filledVerts].z = thickness / 2;
 
                 filledVerts++;
 
                 vertices[filledVerts].x = points[iPoint + 1].x;
                 vertices[filledVerts].y = points[iPoint + 1].y;
-                vertices[filledVerts].z = -0.5f;
+                vertices[filledVerts].z = -thickness / 2;
 
                 filledVerts++;
             }
@@ -96,13 +99,13 @@ public class FigurePolygon : MonoBehaviour {
             {
                 vertices[filledVerts].x = points[0].x;
                 vertices[filledVerts].y = points[0].y;
-                vertices[filledVerts].z = 0.5f;
+                vertices[filledVerts].z = thickness / 2;
 
                 filledVerts++;
 
                 vertices[filledVerts].x = points[0].x;
                 vertices[filledVerts].y = points[0].y;
-                vertices[filledVerts].z = -0.5f;
+                vertices[filledVerts].z = -thickness / 2;
 
                 filledVerts++;
             }
@@ -176,6 +179,11 @@ public class FigurePolygon : MonoBehaviour {
     public Vector2[] GetPoints()
     {
         return points;
+    }
+
+    public float GetThickness()
+    {
+        return thickness;
     }
 
     public Vector2 CalculateSize()

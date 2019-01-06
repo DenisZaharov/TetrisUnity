@@ -24,7 +24,7 @@ public class FigurePusher
         figure.AddComponent<MeshRenderer>();
 
         FigurePolygon polygon = figure.GetComponent<FigurePolygon>();
-        polygon.SetPoints(figureData.Points);
+        polygon.SetPoints(figureData.Points, borders.Left.transform.localScale.z);
 
         FigureDataComponent figureDataStorage = figure.GetComponent<FigureDataComponent>();
         figureDataStorage.Data = figureData;

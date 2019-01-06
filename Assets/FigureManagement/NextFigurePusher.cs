@@ -19,7 +19,7 @@ public class NextFigurePusher
         figure.AddComponent<FigureRotatorY>();
 
         FigurePolygon polygon = figure.GetComponent<FigurePolygon>();
-        polygon.SetPoints(figureData.Points);
+        polygon.SetPoints(figureData.Points, nextFigureArea.Left.transform.localScale.z);
 
         FigureDataComponent figureDataStorage = figure.GetComponent<FigureDataComponent>();
         figureDataStorage.Data = figureData;
